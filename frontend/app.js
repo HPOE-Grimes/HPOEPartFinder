@@ -73,19 +73,19 @@ searchImageBtn.addEventListener('click', () => {
   if (!selectedFile) return;
   const formData = new FormData();
   formData.append('file', selectedFile);
-  doSearch('/search/image', formData, true);
+  doSearch('/api/search/image', formData, true);
 });
 
 document.getElementById('searchNameBtn').addEventListener('click', () => {
   const name = document.getElementById('nameInput').value.trim();
   if (!name) return;
-  doSearch('/search/name', { query: name });
+  doSearch('/api/search/name', { query: name });
 });
 
 document.getElementById('searchDescBtn').addEventListener('click', () => {
   const desc = document.getElementById('descInput').value.trim();
   if (!desc) return;
-  doSearch('/search/description', { query: desc });
+  doSearch('/api/search/description', { query: desc });
 });
 
 // allow Enter key on text inputs
