@@ -35,12 +35,12 @@ class TextQuery(BaseModel):
     query: str
 
 
-@app.get("/health")
+@app.get("/api/health")
 def health():
     return {"status": "ok", "model_loaded": classifier is not None}
 
 
-@app.post("/search/image")
+@app.post("/api/search/image")
 async def search_image(file: UploadFile = File(...)):
     if classifier is None:
         raise HTTPException(
@@ -60,7 +60,7 @@ async def search_image(file: UploadFile = File(...)):
     return {"results": results}
 
 
-@app.post("/search/name")
+@app.post("/api/search/name")
 def search_name(body: TextQuery):
     if not body.query.strip():
         raise HTTPException(status_code=400, detail="Query cannot be empty.")
@@ -68,7 +68,7 @@ def search_name(body: TextQuery):
     return {"results": results}
 
 
-@app.post("/search/description")
+@app.post("/api/search/description")
 def search_description(body: TextQuery):
     if not body.query.strip():
         raise HTTPException(status_code=400, detail="Query cannot be empty.")
