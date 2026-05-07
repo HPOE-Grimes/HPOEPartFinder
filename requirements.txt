@@ -6,3 +6,6 @@ scikit-learn
 pillow
 python-multipart
 numpy
+sentence-transformers
+torch
+torchvision
