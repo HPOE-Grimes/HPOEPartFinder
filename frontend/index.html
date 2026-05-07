@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HPOE Part Finder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <header>
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#2563eb"/>
+          <path d="M8 16h4l3-7 4 14 3-10 2 3h6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>HPOE Part Finder</span>
+      </div>
+    </header>
+
+    <main>
+      <div class="search-card">
+        <h1>Find Your Part</h1>
+        <p class="subtitle">Search by image, part name, or description</p>
+
+        <!-- Mode Tabs -->
+        <div class="tabs">
+          <button class="tab active" data-mode="image">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            Image
+          </button>
+          <button class="tab" data-mode="name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            Part Name
+          </button>
+          <button class="tab" data-mode="description">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Description
+          </button>
+        </div>
+
+        <!-- Image Mode -->
+        <div class="mode-panel active" id="panel-image">
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" accept="image/*" hidden />
+            <div class="drop-content" id="dropContent">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <p>Drag & drop a part image here</p>
+              <span>or</span>
+              <button class="btn-outline" onclick="document.getElementById('fileInput').click()">Browse files</button>
+              <p class="hint">Supports JPG, PNG, WEBP</p>
+            </div>
+            <div class="image-preview" id="imagePreview" style="display:none;">
+              <img id="previewImg" src="" alt="Preview" />
+              <button class="remove-btn" id="removeImg">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          </div>
+          <button class="btn-primary" id="searchImageBtn" disabled>Search by Image</button>
+        </div>
+
+        <!-- Name Mode -->
+        <div class="mode-panel" id="panel-name">
+          <div class="input-wrap">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" id="nameInput" placeholder="e.g. HP-4521-B, Valve Stem, Bracket-09..." />
+          </div>
+          <button class="btn-primary" id="searchNameBtn">Search by Name</button>
+        </div>
+
+        <!-- Description Mode -->
+        <div class="mode-panel" id="panel-description">
+          <textarea id="descInput" placeholder="Describe the part... e.g. 'small metal bracket with two holes, used in engine assembly'"></textarea>
+          <button class="btn-primary" id="searchDescBtn">Search by Description</button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="results-card" id="resultsCard" style="display:none;">
+        <div class="results-header">
+          <h2>Results</h2>
+          <span class="result-count" id="resultCount"></span>
+        </div>
+        <div class="results-list" id="resultsList"></div>
+      </div>
+
+      <!-- Loading -->
+      <div class="loading" id="loading" style="display:none;">
+        <div class="spinner"></div>
+        <p>Searching...</p>
+      </div>
+
+      <!-- Error -->
+      <div class="error-card" id="errorCard" style="display:none;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p id="errorMsg"></p>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

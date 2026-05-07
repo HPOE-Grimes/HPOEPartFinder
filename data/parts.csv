@@ -1,0 +1,96 @@
+Part Name,Location,Usage Description (What does it do),Appearance Description
+V5 Robot Battery,"Electronic Shelf, Row 1, Bin 1",Powers the Vex V5 Brain,"Rectangular, thick"
+Limit Switch,"Electronic Shelf, Row 1, Bin 2",3-wire switch that functions as a digital sensor,"Metal switch, White and red "
+Battery Mounts,"Electronic Shelf, Row 2, Bin 1",Parts that can be attached to a robot and clip onto the battery to hold it in place,"Black, Attachable, Plastic"
+Heavy Duty Zip Ties,"Electronic Shelf, Row 2, Bin 1","Large, strong zip ties that can be used to hold larger parts, like the battery, in place","Black, Plastic"
+3 Wire Extension Cable,"Electronic Shelf, Row 2, Bin 2",Cables that can be used to extend the length of a 3-wire part's cable,White and Red wire with black tips
+Bumper Switch,"Electronic Shelf, Row 2, Bin 3",3-wire button that functions as a digital sensor,Grey button with white and red wire
+Potentiometer,"Electronic Shelf, Row 2, Bin 4","3-wire sensor that returns a value based on the angle of the axle inserted, analog sensor",Red with a circular hole 
+Smart Cable,"Electronic Shelf, Row 3, Bin 1",Cables that can be used to connect vex v5 components to the vex v5 brain,Black Wire with clear square tips
+Fuses,"Electronic Shelf, Row 3, Bin 2","Parts that limit the amount of current sent to a component, when the current exceeds the limit, the fuse will break and the current will shut off. Not reusable.","Small Red, Metal pins"
+Vex V5 Smart Motor,"Electronic Shelf, Row 3, Bin 3",Motor that functions with smart cables and the Vex V5 Brain,"Square, Black, 3 attachment points"
+Motor Controller 29,"Electronic Shelf, Row 4, Bin 1","Cable that functions as a way to use the 2 wire 393 motor, changing its 2 wire port into a 3 wire cable and allowing the cortex or brain to control the motor.",Rectangle with wires out of sides
+2 Wire 393 Motor,"Electronic Shelf, Row 4, Bin 2","Motor that functions only with motor controller 29, can be used with vex cortex or vex brain.","Medium, Black and green"
+Shaft Encoder,"Electronic Shelf, Row 5, Bin 1","3-wire part that can measure the direction, speed, and amount of a shaft's rotation",Square red on top of gray
+Zip Ties,"Electronic Shelf, Row 5, Bin 2",Parts that can be used to tie together multiple other parts,"Black, smooth, thin, plastic"
+Large Wheels,"Metal Room, Bottom Shelf 1, Row 2, Section 2",The largest size of vex wheels available,"Large, green, wheels"
+Claws,"Metal Room, Bottom Shelf 1, Row 2, Section 3",Claws that can be used with shafts and motors to grab objects,Green claw with metal structure
+Claws,"Metal Room, Bottom Shelf 1, Row 3, Section 3",Claws that can be used with shafts and motors to grab objects,Green claw with metal structure
+Marbles,"Metal Room, Supply Shelf, Row 1, Bin 1","Wooden, Clear, and Metal marbles",Small balls of many materials
+Ping Pong Balls,"Metal Room, Supply Shelf, Row 1, Bin 2",Assorted Ping pong balls,"small plastic balls, white and orange"
+Cups ,"Metal Room, Supply Shelf, Row 2, Bin 1",plastic cups that can be used for organization or building,Cylinder-like objects
+Compass,"Metal Room, Supply Shelf, Row 2, Bin 2",Tool used to draw perfect circles of a specific diameter,"object with a pencil attached, labeled compass"
+Vernier Calliper ,"Metal Room, Supply Shelf, Row 2, Bin 3",Tool used to measure the diameter of an object,"Metallic, T-shaped object with two ""jaws"""
+Scissors,"Metal Room, Supply Shelf, Row 3, Bin 1",Tool used to cut things,object with a plastic handle and two metal blades
+Glue Sticks,"Metal Room, Supply Shelf, Row 3, Bin 2",Tool used to apply adhesive glue to objects,a cylinder that can be uncapped to reveal the glue
+Colored Pencils,"Metal Room, Supply Shelf, Row 4, Bin 1",Tools used to apply color to paper and some other objects,cylindrical pencils with vibrant colors
+Rulers,"Metal Room, Supply Shelf, Row 4, Bin 2","Tool used to measure distance, maximum of 12 inches",long strips of wood with measurement markings
+Popsicle Sticks ,"Metal Room, Supply Shelf, Row 4, Bin 3",Wooden popsicle sticks,long strips of wood
+Tape Measures,"Metal Room, Supply Shelf, Row 5, Bin 1",Tool used to measure long distances,Cylinders that have a metal tab that can be pulled to reveal the tape measure
+Tacky Glue,"Metal Room, Supply Shelf, Row 5, Bin 2",High-strength adhesive,Bottle of glue
+Treads,"Metal Room, Tub 1","Part that can be attached to a sprocket to function like tank treads, used for movement",Looks like long chains of flat plastic strips
+Rollers,"Metal Room, Tub 2",Set of 4 tiny wheels that roll freely,small black mount with 4 gray wheels attached
+Small Wheels,"Metal room, Tub 3",Smallest wheels available that can be affixed to vex shafts,"small vex wheels, gray or green"
+Medium Wheels,"Metal Room, Tub 3","medium size of vex wheels, can be affixed to vex shafts","medium wheels, green with a tread pattern on them"
+Dumbbells,"Metal, Room, Shelf 1, Row 1, Section 1",1-2 pound weights that can be used to weigh down robots if needed,large hexagonal parts on either side of a cylinder
+High Strength 15 Tooth Sprocket,"Motion Shelf, Row 1, Bin 1",15 tooth sprocket with a thick structure to avoid stress or breaking,Thick sproket with 15 teeth
+60 Tooth Gear,"Motion Shelf, Row 1, Bin 2","gear with 60 teeth, used for gear trains","Thin, red, plastic 60 small teeth"
+84 Tooth Gear,"Motion Shelf, Row 1, Bin 3","gear with 84 teeth, used for gear trains","Big, circular, 84 small teeth"
+30 Tooth Sprocket,"Motion Shelf, Row 2, Bin 1","sprocket with 30 teeth, used for sprocket mechanisms","Big, circular, 30 big teeth"
+24 Tooth Sprocket,"Motion Shelf, Row 2, Bin 2","sprocket with 24 teeth, used for sprocket mechanisms","Circular, plastic, 24 big teeth"
+12 Tooth Gear,"Motion Shelf, Row 2, Bin 3","gear with 12 teeth, used for gear trains","Circular, plastic, 12 small teeth"
+Red Rack (Rack and Pinion),"Motion Shelf, Row 2, Bin 4",red rack that can be used with a gear to create a rack and pinion system,"Flat, rectangle, teeth"
+Green Rack (Rack and Pinion),"Motion Shelf, Row 2, Bin 4",green rack that can be used with a gear to create a rack and pinion system,"Flat, small teeth"
+Lead Screw,"Motion Shelf, Row 3, Bin 1",Mechanism that can be used to convert rotary motion into linear motion,"Big, threaded"
+Pulley,"Motion Shelf, Row 3, Bin 1",Mechanism that can be used with string to create a pulley,Wheel with a groove in the middle
+Worm Screw,"Motion Shelf, Row 3, Bin 1",A mechanism that drives a gear and changes the direction of motion by 90 degrees,Small thread
+Bevel Gear,"Motion Shelf, Row 3, Bin 2",A part that can be used to transfer rotary motion in a 90 degree angle,Diagonal teeth
+Differential,"Motion Shelf, Row 3, Bin 2",Uses two motor inputs to control two distinct motion outputs,A box of gears surrounded by a casing
+Chain Link,"Motion Shelf, Row 3, Bin 3",Can be connected to sprockets to create a sprocket train,Chains with holes in them that can attach to sprocket teeth
+Outer Slide,"Motion Shelf, Row 4, Bin 1","Can be used with a metal slide to create a sliding mechanism, the metal slide goes inside this part",Small track
+Inner Slide,"Motion Shelf, Row 4, Bin 1","Can be used with a metal slide to create a sliding mechanism, the metal slide goes outside this part","Small smooth, plastic"
+18 Tooth Sprocket,"Motion Shelf, Row 4, Bin 2","Sprocket with 18 teeth, used for sprocket mechanisms",Circular wheel with 18 large teeth
+Snail Cam (Cam and Follower),"Motion Shelf, Row 4, Bin 2","A snail cam for a cam and follower, which transfers linear motion into rotary motion",Plastic part with a shaft insert that looks like a snail shell or conch shell
+Intake Rollers,"Motion Shelf, Row 4, Bin 3",Rolling wheels that can be used to move a part with greater traction due to their shape,"A wheel that has spokes on the outside, thick"
+12 Tooth Sprockets,"Motion Shelf, Row 4, Bin 3","sprocket with 12 teeth, used for sprocket mechanisms",circular wheel with 12 large teeth
+Winch Drum,"Motion Shelf, Row 5, Bin 1","drum for a winch, can be used with string to create a winch mechanism",small cylinder with big plates on tips
+Crank Handle,"Motion Shelf, Row 5, Bin 2",Crank handle that can be attached to a shaft to be used as a hand crank for manual rotation,"Plastic, L-shaped, lever"
+Follower  (Cam and Follower),"Motion Shelf, Row 5, Bin 2","A follower for a cam and follower, which transfers linear motion into rotary motion","Green column, small wheel"
+36 Tooth Gear,"Motion Shelf, Row 5, Bin 3","gear with 36 teeth, used for gear trains","Circular, 36 small teeth"
+24 Tooth Sprocket,"Motion Shelf, Row 5, Bin 3","sprocket with 24 teeth, used for sprocket mechanisms","Circular, 24 big teeth"
+24 Tooth Gear,"Motion Shelf, Row 5, Bin 4","gear with 24 teeth, used for gear trains","Circular, plastic, 24 small teeth"
+6 Tooth Sprocket,"Motion Shelf, Row 7, Bin 1",sprocket with 6 teeth used for sprocket mechanisms,"Circular, 6 big teeth"
+Rachet (Rachet and Sprawl),"Motion Shelf, Row 7, Bin 1","ratchet that can be used for a ratchet and sprawl, which only allows rotary motion in one direction","Circular, diagonal teeth"
+Shaft Collar,"Structure Shelf, Row 1, Bin 1",Shaft collar used to limit the movement of parts along a shaft,"Circular, Metal"
+Plus Gusset,"Structure Shelf, Row 1, Bin 2",Plus-shaped metal gusset used for structure,"Flat, Metal, Plus shaped"
+45 Degree Gusset,"Structure Shelf, Row 1, Bin 2",Gusset with a 45 degree bend used for structure,"Flat, metal, curved in 45° angle"
+Angle Gusset,"Structure Shelf, Row 1, Bin 3",Gusset that has a 90 degree angle and has an L-shape that is used for structure,"Thin, metal, 90° angle"
+Pivot Gusset,"Structure Shelf, Row 1, Bin 4",Gusset that is shaped like a quarter circle and is used to support angles in mechanisms,"Thin, metal, 1/4 circle"
+Washers,"Structure Shelf, Row 1, Bin 5","Small disk that is used for spacing between parts on an axle, reduces direct contact between components and supports maintenance","Very thin, small, circular"
+Keps Nuts,"Structure Shelf, Row 2, Bin 1","Small nut that can be hand-tightened, but loosens easily and is not always the best for structural support","Metal, threaded inside, Hexagonal"
+#8-32 Nylock Nut,"Structure Shelf, Row 2, Bin 2","Nut that cannot easily be hand-tightened, but is hard to loosen and provides strong structural support","Thicker, Hexogonal nut with a raised part"
+Misc Screws,"Structure Shelf, Row 2, Bin 3",Assortment of many screws,"Black, Threaded, Metal"
+Misc Screws,"Structure Shelf, Row 2, Bin 4",Assortment of many screws,"Black, Threaded, Metal"
+Spacer,"Structure Shelf, Row 3, Bin 1",Part that can be used to space out components on a shaft,"Black, Plastic, Smooth"
+Hex Nut Retainer,"Structure Shelf, Row 3, Bin 2","Can easily secure a hex nut(nylock nut), allowing the screw to be easily tightened with one hand. Also provides more structural integrity due to the increase in points of contact","Small, Plastic, Hexogonal cavity"
+Hex Nut Retainer with Bearing Flat,"Structure Shelf, Row 3, Bin 2","Can easily secure a hex nut(nylock nut), allowing the screw to be easily tightened with one hand. Also provides more structural integrity due to the increase in points of contact. Furthermore, it can be used as a way to create a bearing flat for a shaft to be inserted into.","Plastic, Hexogonal Cavity, extended bearing"
+1 Inch Standoff,"Structure Shelf, Row 3, Bin 3","A threaded metal cylinder used to create a fixed distance between two parts, 1 inch","Metal, threaded inside, Hexagonal"
+0.5 Inch Standoff,"Structure Shelf, Row 3, Bin 3","A threaded metal cylinder used to create a fixed distance between two parts, 0.5 inch","Metal, threaded inside, Hexagonal"
+3 Inch Standoff,"Structure Shelf, Row 3, Bin 4","A threaded metal cylinder used to create a fixed distance between two parts, 3 inch","Metal, threaded inside, Hexagonal"
+2 Inch Standoff,"Structure Shelf, Row 3, Bin 4","A threaded metal cylinder used to create a fixed distance between two parts, 2 inch","Metal, threaded inside, Hexagonal"
+Bearing Flat,"Structure Shelf, Row 4, Bin 1",A part that can be attached to a metal surface with screws and is used to stabilize an axle and preserves the structural integrity of both the axle and the metal. It is good practice to use this whenever an axle goes through a metal plate,"Black, Plastic, Smooth, 3 holes"
+Pillow Block Bearing,"Structure Shelf, Row 4, Bin 2",A type of bearing used to support axles when they are raised above a surface. Can be attached using screws,"Black, Plastic, shaft parallel to mounting surface"
+Metal Shaft Insert,"Structure Shelf, Row 4, Bin 3","A part that can be inserted into motors and certain sprockets that allow an axle to fit into the part. Should be used whenever possible. Has a square hole, so the part with this insert will rotate with the axle.","Small, Square, fits with gears"
+Lock Bar,"Structure Shelf, Row 4, Bin 3",A part that keeps an axle in a certain orientation relative to the part that it is attached to. Should be used when an axle is required to rotate a larger metal part.,"Black, Thin, square hole"
+4 Inch Axles,"Structure Shelf, Row 5, Bin 1","A square axle used for rotation, 4 inches",Metal Rod
+3 Inch Axles,"Structure Shelf, Row 5, Bin 1","A square axle used for rotation, 3 inches",Metal Rod
+2 Inch Axles,"Structure Shelf, Row 5, Bin 1","A square axle used for rotation, 2 inches",Metal Rod
+Less than 2 Inch Axles,"Structure Shelf, Row 5, Bin 1","A square axle used for rotation, <2 inches",Metal Rod
+Shaft Coupler,"Structure Shelf, Row 5, Bin 2",A part that can be used to attach two axles together,"Black, Shiny, pipe with square hole"
+Long Screw,"Structure Shelf, Row 5, Bin 2",The longest screws available,"Black, Threaded, Metal"
+Plastic Shaft Insert,"Structure Shelf, Row 5, Bin 2","A part that can be inserted into motors and certain sprockets that allow an axle to fit into the part. Should be used whenever possible. Has a circular hole, so the part with this insert will rotate freely on the axle","Plastic, grey and green, circular hole"
+Bearing Attachment Rivets,"Structure Shelf, Row 5, Bin 3","A part that can be used to attach any bearing part to a metal surface. Snaps into place and is reusable. Convenient, but screws are superior for structural integrity","Black, Plastic, Inside pin"
+Vex Rubber Shaft Collar,"Structure Shelf, Row 5, Bin 3","A shaft collar that is made of rubber and does not have to be screwed onto the axle, but as a result is not fully secure. Creates much friction with the axle and other components","Plastic, Circular hole, cylindrical ring"
+Very Straight 12 Inch Axle,"Structure Shelf, Row 6, Bin 1","Longest axle available, straightest option","Long, Metal Rod"
+Slightly Bent 12 Inch Axle,"Structure Shelf, Row 6, Bin 2","Longest axle available, slightly bent due to strained usage","Long, Metal Rod"
+Very Bent 12 Inch Axle,"Structure Shelf, Row 6, Bin 2","Longest axle available, very bent due to extreme usage or misuse","Not straight, metal rod"
