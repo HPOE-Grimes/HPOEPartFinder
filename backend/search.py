@@ -112,3 +112,21 @@ class PartDatabase:
 
     def get_class_names(self) -> list[str]:
         return sorted(self.df['part_name'].unique().tolist())
+
+    def reload(self, csv_path: str):
+        self.df = pd.read_csv(csv_path)
+        self.df.columns = ['part_name', 'location', 'usage_description', 'appearance_description']
+        self.df = self.df.fillna('')
+        self.df['combined_description'] = (
+            self.df['part_name'] + '. ' +
+            self.df['usage_description'] + ' ' +
+            self.df['appearance_description']
+        )
+        self._embeddings = self._model.encode(
+            self.df['combined_description'].tolist(),
+            convert_to_numpy=True,
+            show_progress_bar=False,
+        )
+
+    def to_records(self) -> list[dict]:
+        return self.df[['part_name', 'location', 'usage_description', 'appearance_description']].to_dict('records')

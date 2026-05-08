@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HPOE Part Finder — Database</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    .app { max-width: 900px; }
+
+    .db-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-top: 24px;
+    }
+
+    .db-card h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 18px; }
+
+    /* Add form */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .form-grid .full { grid-column: 1 / -1; }
+
+    .form-grid input,
+    .form-grid textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+      transition: border-color 0.15s;
+    }
+    .form-grid input:focus,
+    .form-grid textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+    .form-grid textarea { min-height: 72px; }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-primary:disabled { opacity: 0.5; cursor: default; }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: var(--red);
+      border: none;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-danger:hover { background: #fecaca; }
+
+    .btn-retrain {
+      background: #f0fdf4;
+      color: var(--green);
+      border: 1.5px solid #bbf7d0;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-retrain:hover { background: #dcfce7; }
+    .btn-retrain:disabled { opacity: 0.5; cursor: default; }
+
+    /* Status badge */
+    .status-badge {
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .status-idle    { background: var(--gray-100); color: var(--gray-600); }
+    .status-running { background: #fef9c3; color: #854d0e; }
+    .status-success { background: var(--green-light); color: var(--green); }
+    .status-error   { background: #fee2e2; color: var(--red); }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; margin-top: 18px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th {
+      text-align: left;
+      padding: 8px 10px;
+      background: var(--gray-100);
+      color: var(--gray-600);
+      font-weight: 600;
+      border-bottom: 1.5px solid var(--gray-200);
+    }
+    td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--gray-200);
+      vertical-align: top;
+      max-width: 260px;
+    }
+    td.narrow { white-space: nowrap; max-width: none; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--gray-50); }
+
+    .part-count { color: var(--gray-400); font-size: 0.85rem; margin-left: 6px; font-weight: 400; }
+
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 0;
+      flex-wrap: wrap;
+    }
+    .table-header h2 { margin-bottom: 0; }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gray-100);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 7px 12px;
+      flex: 0 0 220px;
+    }
+    .search-wrap svg { color: var(--gray-400); flex-shrink: 0; }
+    .search-wrap input {
+      border: none;
+      background: transparent;
+      font-size: 0.88rem;
+      width: 100%;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--blue);
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      margin-top: 18px;
+    }
+    .nav-link:hover { text-decoration: underline; }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--gray-800);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="#2563eb"/>
+          <path d="M8 16h4l3-7 4 14 3-10 2 3h6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>HPOE Part Finder</span>
+      </div>
+    </header>
+
+    <main>
+      <a class="nav-link" href="/">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5"/><path d="M12 5l-7 7 7 7"/></svg>
+        Back to Search
+      </a>
+
+      <!-- Add Part -->
+      <div class="db-card">
+        <h2>Add New Part</h2>
+        <div class="form-grid">
+          <input id="fName"       placeholder="Part Name *" />
+          <input id="fLocation"   placeholder="Location (e.g. Shelf A, Row 1, Bin 2) *" />
+          <textarea id="fUsage"  class="full" placeholder="Usage Description — what does it do? *"></textarea>
+          <textarea id="fAppear" class="full" placeholder="Appearance Description — what does it look like?"></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-primary" id="addBtn" onclick="addPart()">Add Part</button>
+          <button class="btn-retrain" id="retrainBtn" onclick="triggerRetrain()">Retrain Search AI</button>
+          <span class="status-badge status-idle" id="retrainStatus">Idle</span>
+        </div>
+      </div>
+
+      <!-- Parts Table -->
+      <div class="db-card">
+        <div class="table-header">
+          <h2>Parts Database <span class="part-count" id="partCount"></span></h2>
+          <div class="search-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input id="searchBar" placeholder="Filter parts…" oninput="renderTable()" />
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Part Name</th>
+                <th>Location</th>
+                <th>Usage</th>
+                <th>Appearance</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="partsBody">
+              <tr><td colspan="6" style="color:var(--gray-400);text-align:center;padding:24px">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API = '';
+    let allParts = [];
+
+    async function loadParts() {
+      const res = await fetch(`${API}/api/db/parts`);
+      const data = await res.json();
+      allParts = data.parts;
+      renderTable();
+    }
+
+    function renderTable() {
+      const query = document.getElementById('searchBar').value.toLowerCase();
+      const tbody = document.getElementById('partsBody');
+
+      const filtered = allParts
+        .map((p, originalIdx) => ({ p, originalIdx }))
+        .filter(({ p }) =>
+          !query ||
+          p.part_name.toLowerCase().includes(query) ||
+          p.location.toLowerCase().includes(query) ||
+          p.usage_description.toLowerCase().includes(query) ||
+          p.appearance_description.toLowerCase().includes(query)
+        );
+
+      const showing = filtered.length;
+      const total   = allParts.length;
+      document.getElementById('partCount').textContent =
+        query ? `(${showing} of ${total})` : `(${total})`;
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="6" style="color:var(--gray-400);text-align:center;padding:24px">${total ? 'No matches.' : 'No parts yet.'}</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(({ p, originalIdx }, i) => `
+        <tr>
+          <td class="narrow" style="color:var(--gray-400)">${originalIdx + 1}</td>
+          <td><strong>${esc(p.part_name)}</strong></td>
+          <td class="narrow">${esc(p.location)}</td>
+          <td>${esc(p.usage_description)}</td>
+          <td>${esc(p.appearance_description)}</td>
+          <td class="narrow">
+            <button class="btn-danger" onclick="deletePart(${originalIdx})">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function addPart() {
+      const name   = document.getElementById('fName').value.trim();
+      const loc    = document.getElementById('fLocation').value.trim();
+      const usage  = document.getElementById('fUsage').value.trim();
+      const appear = document.getElementById('fAppear').value.trim();
+      if (!name || !loc || !usage) { toast('Name, Location and Usage are required.'); return; }
+
+      document.getElementById('addBtn').disabled = true;
+      const res = await fetch(`${API}/api/db/parts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ part_name: name, location: loc, usage_description: usage, appearance_description: appear }),
+      });
+      document.getElementById('addBtn').disabled = false;
+      if (res.ok) {
+        document.getElementById('fName').value = '';
+        document.getElementById('fLocation').value = '';
+        document.getElementById('fUsage').value = '';
+        document.getElementById('fAppear').value = '';
+        toast('Part added & search index updated.');
+        loadParts();
+      } else {
+        const err = await res.json();
+        toast(`Error: ${err.detail || 'Unknown error'}`);
+      }
+    }
+
+    async function deletePart(originalIdx) {
+      if (!confirm('Delete this part?')) return;
+      const res = await fetch(`${API}/api/db/parts/${originalIdx}`, { method: 'DELETE' });
+      if (res.ok) {
+        allParts.splice(originalIdx, 1);
+        renderTable();
+        toast('Part deleted.');
+      } else {
+        toast('Failed to delete part.');
+      }
+    }
+
+    async function triggerRetrain() {
+      const btn   = document.getElementById('retrainBtn');
+      const badge = document.getElementById('retrainStatus');
+      btn.disabled = true;
+      badge.textContent = 'Retraining…';
+      badge.className = 'status-badge status-running';
+      try {
+        const res = await fetch(`${API}/api/db/retrain`, { method: 'POST' });
+        if (res.ok) {
+          badge.textContent = 'Done';
+          badge.className = 'status-badge status-success';
+          toast('Search AI retrained on current database.');
+        } else {
+          const err = await res.json();
+          badge.textContent = 'Failed';
+          badge.className = 'status-badge status-error';
+          toast(`Error: ${err.detail}`);
+        }
+      } catch (e) {
+        badge.textContent = 'Failed';
+        badge.className = 'status-badge status-error';
+        toast('Request failed — check server.');
+      }
+      btn.disabled = false;
+    }
+
+    function esc(s) {
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    loadParts();
+  </script>
+</body>
+</html>
