@@ -1,3 +1,4 @@
+import io
 import os
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -5,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import pandas as pd
+from rapidfuzz import process, fuzz
 
 from search import PartDatabase
 from inference import PartClassifier
@@ -143,3 +145,132 @@ def delete_part(idx: int):
 def trigger_retrain():
     db.reload(CSV_PATH)
     return {"ok": True, "total": len(db.to_records())}
+
+
+# ── Bulk upload ───────────────────────────────────────────────────────────────
+
+# Keywords that hint at each target field (checked against the uploaded column names)
+_FIELD_HINTS = {
+    "part_name": [
+        "part name", "part", "name", "item", "component", "title",
+        "sku", "part number", "part no", "description", "product",
+    ],
+    "location": [
+        "location", "bin", "shelf", "row", "storage", "where",
+        "place", "position", "aisle", "cabinet", "slot", "spot",
+    ],
+    "usage_description": [
+        "usage description", "usage", "use", "function", "purpose",
+        "what it does", "how it works", "application", "role", "task",
+    ],
+    "appearance_description": [
+        "appearance description", "appearance", "look", "visual",
+        "color", "colour", "shape", "physical", "how it looks",
+        "looks like", "exterior", "form",
+    ],
+}
+
+
+def _map_columns(columns: list[str]) -> dict[str, str]:
+    """Return {target_field: uploaded_column} for the best fuzzy match of each field."""
+    mapping = {}
+    used = set()
+    cols_lower = {c: c.lower().strip() for c in columns}
+
+    for field, hints in _FIELD_HINTS.items():
+        best_col, best_score = None, 0
+        for col, col_l in cols_lower.items():
+            if col in used:
+                continue
+            for hint in hints:
+                score = fuzz.token_set_ratio(col_l, hint)
+                if score > best_score:
+                    best_score, best_col = score, col
+        if best_col and best_score >= 50:
+            mapping[field] = best_col
+            used.add(best_col)
+
+    return mapping
+
+
+def _read_csv_loose(raw: bytes) -> pd.DataFrame:
+    """Try common delimiters and encodings until one works."""
+    for enc in ("utf-8", "latin-1", "cp1252"):
+        for sep in (",", ";", "\t", "|"):
+            try:
+                df = pd.read_csv(io.BytesIO(raw), sep=sep, encoding=enc, dtype=str)
+                if len(df.columns) >= 1:
+                    return df
+            except Exception:
+                pass
+    raise ValueError("Could not parse the CSV with any common delimiter or encoding.")
+
+
+@app.post("/api/db/bulk-upload")
+async def bulk_upload(file: UploadFile = File(...)):
+    raw = await file.read()
+    try:
+        uploaded = _read_csv_loose(raw)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    uploaded.columns = [str(c).strip() for c in uploaded.columns]
+    mapping = _map_columns(list(uploaded.columns))
+
+    if "part_name" not in mapping:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Could not find a 'Part Name' column. Columns found: {list(uploaded.columns)}",
+        )
+
+    def _cell(row, col):
+        if not col or col not in row:
+            return ""
+        v = row[col]
+        return "" if pd.isna(v) else str(v).strip()
+
+    # Build clean rows using only the mapped columns
+    rows = []
+    skipped = 0
+    for _, row in uploaded.iterrows():
+        part_name = _cell(row, mapping["part_name"])
+        if not part_name:
+            skipped += 1
+            continue
+        rows.append({
+            "Part Name": part_name,
+            "Location": _cell(row, mapping.get("location", "")),
+            "Usage Description (What does it do)": _cell(row, mapping.get("usage_description", "")),
+            "Appearance Description": _cell(row, mapping.get("appearance_description", "")),
+        })
+
+    if not rows:
+        raise HTTPException(status_code=422, detail="No valid rows found after cleaning.")
+
+    existing = pd.read_csv(CSV_PATH)
+    existing_names = set(existing["Part Name"].str.strip().str.lower().dropna())
+
+    deduped = []
+    seen = set()
+    duplicates = 0
+    for r in rows:
+        key = r["Part Name"].lower()
+        if key in existing_names or key in seen:
+            duplicates += 1
+        else:
+            seen.add(key)
+            deduped.append(r)
+
+    if deduped:
+        appended = pd.concat([existing, pd.DataFrame(deduped)], ignore_index=True)
+        appended.to_csv(CSV_PATH, index=False)
+        db.reload(CSV_PATH)
+
+    return {
+        "ok": True,
+        "added": len(deduped),
+        "skipped": skipped,
+        "duplicates": duplicates,
+        "total": len(db.to_records()),
+        "column_mapping": {k: mapping.get(k, "(not found)") for k in _FIELD_HINTS},
+    }

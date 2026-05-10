@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HPOE Part Finder — Database</title>
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
   <link rel="stylesheet" href="/static/style.css" />
   <style>
     .app { max-width: 900px; }
@@ -159,6 +160,44 @@
       font-family: inherit;
     }
 
+    /* Bulk upload */
+    .bulk-drop {
+      border: 2px dashed var(--gray-200);
+      border-radius: 10px;
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--gray-600);
+    }
+    .bulk-drop:hover, .bulk-drop.drag-over {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+    .bulk-result {
+      margin-top: 14px;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    .bulk-result.success { background: var(--green-light); color: #166534; }
+    .bulk-result.error   { background: #fee2e2; color: #991b1b; }
+    .bulk-result .mapping {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 2px 12px;
+      font-size: 0.82rem;
+      opacity: 0.85;
+    }
+    .bulk-result .mapping b { font-weight: 600; }
+
     .nav-link {
       display: inline-flex;
       align-items: center;
@@ -221,6 +260,20 @@
           <button class="btn-retrain" id="retrainBtn" onclick="triggerRetrain()">Retrain Search AI</button>
           <span class="status-badge status-idle" id="retrainStatus">Idle</span>
         </div>
+      </div>
+
+      <!-- Bulk Upload -->
+      <div class="db-card">
+        <h2>Upload Bulk CSV</h2>
+        <p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:14px">
+          Upload any CSV — columns will be auto-mapped to Part Name, Location, Usage, and Appearance. Unrecognised columns are dropped.
+        </p>
+        <div class="bulk-drop" id="bulkDrop" onclick="document.getElementById('bulkFile').click()">
+          <input type="file" id="bulkFile" accept=".csv,text/csv" hidden onchange="handleBulkFile(this.files[0])" />
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span id="bulkDropLabel">Drop a CSV here or click to browse</span>
+        </div>
+        <div id="bulkResult" class="bulk-result" style="display:none"></div>
       </div>
 
       <!-- Parts Table -->
@@ -378,6 +431,57 @@
       el.textContent = msg;
       el.classList.add('show');
       setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    // ── Bulk upload ──────────────────────────────────────────────────────────
+    const bulkDrop = document.getElementById('bulkDrop');
+    bulkDrop.addEventListener('dragover',  e => { e.preventDefault(); bulkDrop.classList.add('drag-over'); });
+    bulkDrop.addEventListener('dragleave', () => bulkDrop.classList.remove('drag-over'));
+    bulkDrop.addEventListener('drop', e => {
+      e.preventDefault();
+      bulkDrop.classList.remove('drag-over');
+      const f = e.dataTransfer.files[0];
+      if (f) handleBulkFile(f);
+    });
+
+    async function handleBulkFile(file) {
+      if (!file) return;
+      document.getElementById('bulkDropLabel').textContent = `Uploading "${file.name}"…`;
+      const resultEl = document.getElementById('bulkResult');
+      resultEl.style.display = 'none';
+
+      const form = new FormData();
+      form.append('file', file);
+      try {
+        const res = await fetch(`${API}/api/db/bulk-upload`, { method: 'POST', body: form });
+        const data = await res.json();
+        resultEl.style.display = 'block';
+        if (res.ok) {
+          const m = data.column_mapping;
+          resultEl.className = 'bulk-result success';
+          resultEl.innerHTML = `
+            <strong>Done!</strong> Added <strong>${data.added}</strong> parts
+            ${data.skipped ? `, skipped <strong>${data.skipped}</strong> empty rows` : ''}
+            ${data.duplicates ? `, removed <strong>${data.duplicates}</strong> duplicate${data.duplicates > 1 ? 's' : ''}` : ''}.
+            Total in database: ${data.total}.
+            <div class="mapping">
+              <b>Part Name</b><span>${esc(m.part_name)}</span>
+              <b>Location</b><span>${esc(m.location)}</span>
+              <b>Usage</b><span>${esc(m.usage_description)}</span>
+              <b>Appearance</b><span>${esc(m.appearance_description)}</span>
+            </div>`;
+          loadParts();
+        } else {
+          resultEl.className = 'bulk-result error';
+          resultEl.innerHTML = `<strong>Error:</strong> ${esc(data.detail)}`;
+        }
+      } catch (e) {
+        resultEl.style.display = 'block';
+        resultEl.className = 'bulk-result error';
+        resultEl.innerHTML = `<strong>Request failed</strong> — check server.`;
+      }
+      document.getElementById('bulkDropLabel').textContent = 'Drop a CSV here or click to browse';
+      document.getElementById('bulkFile').value = '';
     }
 
     loadParts();
