@@ -1,12 +1,16 @@
 const API_BASE = 'http://localhost:8000';
 
 // --- Dark mode ---
-const darkToggle = document.getElementById('darkToggle');
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark');
-darkToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  localStorage.setItem('darkMode', document.body.classList.contains('dark'));
-});
+(function () {
+  const btn = document.getElementById('darkToggle');
+  if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark');
+  btn.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+    btn.style.transform = 'scale(0.88) rotate(20deg)';
+    setTimeout(() => { btn.style.transform = ''; }, 200);
+  });
+})();
 
 // --- Tab switching ---
 document.querySelectorAll('.tab').forEach(tab => {
