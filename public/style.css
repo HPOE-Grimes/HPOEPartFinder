@@ -15,6 +15,22 @@
   --red: #ef4444;
   --radius: 12px;
   --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+}
+
+body.dark {
+  --gray-50: #0f172a;
+  --gray-100: #1e293b;
+  --gray-200: #334155;
+  --gray-400: #64748b;
+  --gray-600: #94a3b8;
+  --gray-800: #f1f5f9;
+  --blue-light: #1e3566;
+  --green-light: #052e16;
+  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --surface: #1e293b;
+  --surface-raised: #263348;
 }
 
 body {
@@ -22,6 +38,7 @@ body {
   background: var(--gray-50);
   color: var(--gray-800);
   min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
 }
 
 .app {
@@ -33,6 +50,9 @@ body {
 /* Header */
 header {
   padding: 24px 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
@@ -42,14 +62,53 @@ header {
   font-size: 18px;
   font-weight: 700;
   color: var(--gray-800);
+  transition: color 0.3s;
 }
+
+/* Dark toggle button */
+.dark-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid var(--gray-200);
+  background: var(--surface);
+  color: var(--gray-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+}
+
+.dark-toggle:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+  transform: scale(1.06);
+}
+
+.dark-toggle:active { transform: scale(0.94); }
+
+.dark-toggle .icon-sun,
+.dark-toggle .icon-moon {
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s;
+  position: absolute;
+  pointer-events: none;
+}
+
+body:not(.dark) .icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+body:not(.dark) .icon-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+body.dark       .icon-sun  { opacity: 0; transform: rotate(90deg) scale(0.5); }
+body.dark       .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
 
 /* Search Card */
 .search-card {
-  background: white;
+  background: var(--surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 32px;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 h1 {
@@ -94,9 +153,10 @@ h1 {
 .tab:hover { color: var(--gray-800); }
 
 .tab.active {
-  background: white;
+  background: var(--surface);
   color: var(--blue);
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: background 0.3s;
 }
 
 /* Panels */
@@ -159,7 +219,7 @@ h1 {
   position: absolute;
   top: -10px;
   right: -10px;
-  background: white;
+  background: var(--surface);
   border: 1px solid var(--gray-200);
   border-radius: 50%;
   width: 28px;
@@ -195,8 +255,8 @@ input[type="text"] {
   border-radius: 8px;
   font-size: 15px;
   color: var(--gray-800);
-  background: white;
-  transition: border-color 0.15s;
+  background: var(--surface);
+  transition: border-color 0.15s, background 0.3s, color 0.3s;
   outline: none;
 }
 
@@ -209,11 +269,11 @@ textarea {
   border-radius: 8px;
   font-size: 15px;
   color: var(--gray-800);
-  background: white;
+  background: var(--surface);
   resize: vertical;
   min-height: 120px;
   font-family: inherit;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, background 0.3s, color 0.3s;
   outline: none;
 }
 
@@ -238,25 +298,26 @@ textarea:focus { border-color: var(--blue); }
 
 .btn-outline {
   padding: 9px 20px;
-  background: white;
+  background: var(--surface);
   color: var(--blue);
   border: 1.5px solid var(--blue);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.15s, background 0.3s;
 }
 
 .btn-outline:hover { background: var(--blue-light); }
 
 /* Results */
 .results-card {
-  background: white;
+  background: var(--surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 28px;
   margin-top: 20px;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .results-header {
