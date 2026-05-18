@@ -30,9 +30,43 @@ body {
   padding: 0 16px 80px;
 }
 
+/* Dark mode */
+body.dark {
+  --gray-50: #0f172a;
+  --gray-100: #1e293b;
+  --gray-200: #334155;
+  --gray-400: #64748b;
+  --gray-600: #94a3b8;
+  --gray-800: #f1f5f9;
+  --blue-light: #1e3a5f;
+  --green-light: #052e16;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+body.dark .search-card,
+body.dark .results-card,
+body.dark input[type="text"],
+body.dark textarea,
+body.dark .tab.active,
+body.dark .btn-outline,
+body.dark .remove-btn {
+  background: #1e293b;
+  color: var(--gray-800);
+}
+
+body.dark .drop-zone { background: #0f172a; }
+
+body.dark .error-card {
+  background: #2d1010;
+  border-color: #7f1d1d;
+}
+
 /* Header */
 header {
   padding: 24px 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
@@ -43,6 +77,25 @@ header {
   font-weight: 700;
   color: var(--gray-800);
 }
+
+.dark-toggle {
+  background: var(--gray-100);
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--gray-600);
+  transition: all 0.15s;
+}
+
+.dark-toggle:hover { color: var(--gray-800); border-color: var(--gray-400); }
+
+body:not(.dark) .icon-moon { display: none; }
+body.dark .icon-sun { display: none; }
 
 /* Search Card */
 .search-card {
